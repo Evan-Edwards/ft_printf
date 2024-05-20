@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
+void    ft_type(char c, va_list list, int *count);
 int ft_printf(const char *ex, ...)
 {
     int     i;
@@ -39,19 +40,27 @@ int ft_printf(const char *ex, ...)
 
 void    ft_type(char c, va_list list, int *count)
 {
+    unsigned long n;
     if (c == 'c')
-        ft_putchar(va_arg(list, char));
+        ft_putchar(va_arg(list, char), count);
     else if (c == 's')
-        ft_putstr(va_arg(list, char *));
+        ft_putstr(va_arg(list, char *), count);
     else if (c == 'd' || c == 'i')
-        ft_putnbr(va_arg(list, int));
-    else if (c == 'x' || c == 'X')
-        ft_puthex(va_arg(list, unsigned int));
+        ft_putnbr((long)(va_arg(list, int)), 10, dec, count);
+    else if (c == 'X')
+        ft_putnbr((long)(va_arg(list, unsigned int)), 16, hex, count);
+    else if (c == 'x')
+        ft_putnbr((long)(va_arg(list, unsigned int)), 16, hex_low, count);
     else if (c == 'p')
-        ft_puthex_v(va_arg(list, void *));
+    {
+        n = (unsigned long)(va_arg(list, void *));
+        ft_putstr("0x", count);
+        ft_putnbr(n, 16, hex, count);
+    }
     else if (c == 'u')
-        ft_putdec_uns(va_arg(list, unsigned int));
+        ft_putdec_uns(va_arg(list, unsigned int), 10, dec);
     else if (c == '%')
-        ft_putchar_fd(c, 1);
-
+        ft_putchar(c, count);
+    else
+        count--;
 }

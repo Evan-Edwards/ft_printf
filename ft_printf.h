@@ -12,16 +12,22 @@
 
 #ifndef FT_PRINT_H
 # define FT_PRINT_H
+# define dec "0123456789"
+# define hex "0123456789ABCDEF"
+# define hex_low "0123456789abcdef"
+
 
 #include <stdarg.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <stddef.h>
-# include <stdlib.h>
-# include <string.h>
-# include <limits.h>
-# include "./libft/libft.h"
+
+
+
 
 int	ft_printf(const char *str, ...);
+void	ft_putchar(char c, int *count);
+void	ft_putstr(char *s, int *count);
+void	ft_putnbr(long nb, int len, char *base, int *count);
+
 
 #endif

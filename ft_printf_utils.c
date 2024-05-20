@@ -14,10 +14,10 @@
 void	ft_putchar(char c, int *count)
 {
 	write(1, &c, 1);
-    count++;
+    *count++;
 }
 
-void	ft_putstr(char *s, int fd, int *count)
+void	ft_putstr(char *s, int *count)
 {
 	int	i;
 
@@ -26,20 +26,25 @@ void	ft_putstr(char *s, int fd, int *count)
 	i = 0;
 	while (s[i])
 	{
-		ft_putchar_fd(s[i], fd);
+		ft_putchar(s[i], count);
 		i++;
 	}
 }
 
-size_t	ft_strlen(const char *s)
+void	ft_putnbr(long nb, int len, char *base, int *count)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if (nb < 0)
+	{
+		ft_putchar('-', len);
+		nb *= -1;
+	}
+	if (nb >= len)
+	{
+		ft_putnbr(len, nb / len, base, count);
+		ft_putnbr(len, nb % len, base, count);
+	}
+	else
+		ft_putchar(base[len], count);
 }
-
 
 
