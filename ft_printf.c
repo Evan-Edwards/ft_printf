@@ -16,7 +16,6 @@ int ft_printf(const char *ex, ...)
 {
     int     i;
     int     *count;
-    char    *type;
     va_list list;
 
     i = 0;
@@ -35,14 +34,14 @@ int ft_printf(const char *ex, ...)
             i++;
         }
     }
-    return (count);
+    return (*count);
 }
 
 void    ft_type(char c, va_list list, int *count)
 {
     unsigned long n;
     if (c == 'c')
-        ft_putchar(va_arg(list, char), count);
+        ft_putchar(va_arg(list, int), count);
     else if (c == 's')
         ft_putstr(va_arg(list, char *), count);
     else if (c == 'd' || c == 'i')
@@ -57,10 +56,19 @@ void    ft_type(char c, va_list list, int *count)
         ft_putstr("0x", count);
         ft_putnbr(n, 16, hex, count);
     }
+    /*
     else if (c == 'u')
         ft_putdec_uns(va_arg(list, unsigned int), 10, dec);
+        */
     else if (c == '%')
         ft_putchar(c, count);
     else
         count--;
 }
+
+/*
+int main()
+{
+    ft_printf("Hello World");
+}
+*/
