@@ -13,14 +13,15 @@
 
 void	ft_putchar(char c, int *count)
 {
-	int err;
+	int	err;
+
 	err = write(1, &c, 1);
 	if (err == -1)
 	{
 		*count = -1;
 		return ;
 	}
-    (*count)++;
+	(*count)++;
 }
 
 void	ft_putstr(char *s, int *count)
@@ -29,7 +30,7 @@ void	ft_putstr(char *s, int *count)
 
 	if (!s)
 		*count = -1;
-		return ;
+	return ;
 	i = 0;
 	while (s[i])
 	{
@@ -44,7 +45,7 @@ void	ft_putnbr(long nb, int len, char *base, int *count)
 {
 	if (nb < 0)
 	{
-		ft_putchar('-', len);
+		ft_putchar('-', count);
 		if (*count == -1)
 			return ;
 		nb *= -1;
@@ -57,5 +58,3 @@ void	ft_putnbr(long nb, int len, char *base, int *count)
 	else
 		ft_putchar(base[len], count);
 }
-
-
