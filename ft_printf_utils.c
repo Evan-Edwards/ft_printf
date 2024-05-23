@@ -13,10 +13,7 @@
 
 void	ft_putchar(char c, int *count)
 {
-	int	err;
-
-	err = write(1, &c, 1);
-	if (err == -1)
+	if (write(1, &c, 1) == -1)
 	{
 		*count = -1;
 		return ;
@@ -26,12 +23,18 @@ void	ft_putchar(char c, int *count)
 
 void	ft_putstr(char *s, int *count)
 {
-	int	i;
+	int		i;
+	char	*null;
 
-	if (!s)
-		*count = -1;
-	return ;
 	i = 0;
+	null = "(null)";
+	if (!s)
+	{
+		if (write (1, null, 6) == -1)
+			*count = -1;
+		else
+			*count += 6;
+	}
 	while (s[i])
 	{
 		ft_putchar(s[i], count);
@@ -51,10 +54,13 @@ void	ft_putnbr(long nb, int len, char *base, int *count)
 		nb *= -1;
 	}
 	if (nb >= len)
-	{
-		ft_putnbr(len, nb / len, base, count);
-		ft_putnbr(len, nb % len, base, count);
-	}
-	else
-		ft_putchar(base[len], count);
+		ft_putnbr(nb / len, len, base, count);
+	ft_putchar(base[nb % len], count);
+}
+
+void	ft_putnbr_p(unsigned long nb, int len, char *base, int *count)
+{
+	if (nb >= (unsigned long)len)
+		ft_putnbr_p(nb / len, len, base, count);
+	ft_putchar(base[nb % len], count);
 }
