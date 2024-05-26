@@ -34,6 +34,7 @@ static int	ft_print_help(const char *format, va_list list)
 
 	i = 0;
 	err = 0;
+	count = 0;
 	while (format[i])
 	{
 		if (format[i] == '%' && format[i + 1])
@@ -42,7 +43,7 @@ static int	ft_print_help(const char *format, va_list list)
 			err = ft_type(format[i], list);
 			if (err == -1)
 				return (-1);
-			count += count + err;
+			count += err;
 		}
 		else
 		{
@@ -58,6 +59,7 @@ static int	ft_print_help(const char *format, va_list list)
 static int	ft_type(char c, va_list list)
 {
 	int				err;
+	unsigned long	nb;
 
 	err = 0;
 	if (c == 'c')
@@ -65,15 +67,15 @@ static int	ft_type(char c, va_list list)
 	else if (c == 's')
 		err = ft_putstr(va_arg(list, char *));
 	else if (c == 'd' || c == 'i')
-		err = ft_putnbr((va_arg(list, int)), 10, DEC);
+		err = ft_putnbr((va_arg(list, int)), 10, DEC, &err);
 	else if (c == 'X')
-		err = ft_putnbr((va_arg(list, unsigned int)), 16, HEX);
+		err = ft_putnbr((va_arg(list, unsigned int)), 16, HEX, &err);
 	else if (c == 'x')
-		err = ft_putnbr((va_arg(list, unsigned int)), 16, HEX_LOW);
+		err = ft_putnbr((va_arg(list, unsigned int)), 16, HEX_LOW, &err);
 	else if (c == 'p')
-		err = ft_putnbr_p((va_arg(list, void *)), 16, HEX_LOW);
+		err = ft_putnbr_p(va_arg(list, unsigned long), 16, HEX_LOW);
 	else if (c == 'u')
-		err = ft_putnbr(va_arg(list, unsigned int), 10, DEC);
+		err = ft_putnbr(va_arg(list, unsigned int), 10, DEC, &err);
 	else if (c == '%')
 		err = ft_putchar(c);
 	return (err);
@@ -84,17 +86,18 @@ static int	ft_type(char c, va_list list)
 int	main(void)
 {
 	ft_printf("%d\n", ft_printf("%c\n", 'a'));
-	//ft_printf("%d\n", ft_printf("%s\n", "hello"));
-	//printf("%d\n", printf("%s\n", "hello"));
-	//ft_printf("%d\n", ft_printf("%d\n", 42));
-	//ft_printf("%d\n", ft_printf("%i\n", 42));
-	//ft_printf("%d\n", ft_printf("%X\n", 42));
-	//ft_printf("%d\n", ft_printf("%x\n", 42));
-	//ft_printf("%d\n", ft_printf("%p\n", ""));
-	//printf("%d\n", printf("%p\n", ""));
-	//ft_printf("%d\n", ft_printf("%p\n", NULL));
-	//printf("%d\n", printf("%p\n", NULL));
-	//ft_printf("%d\n", ft_printf("%u\n", 42));
-	//ft_printf("%d\n", ft_printf("%%\n"));
-	//ft_printf("%d\n", ft_printf("Hello %cWorld\n", "hello"));
+	printf("%d\n", printf("%c\n", 'a'));
+	ft_printf("%d\n", ft_printf("%s\n", "hello"));
+	printf("%d\n", printf("%s\n", "hello"));
+	ft_printf("%d\n", ft_printf("%d\n", 42));
+	ft_printf("%d\n", ft_printf("%i\n", 42));
+	ft_printf("%d\n", ft_printf("%X\n", 42));
+	ft_printf("%d\n", ft_printf("%x\n", 42));
+	ft_printf("%d\n", ft_printf("%p\n", ""));
+	printf("%d\n", printf("%p\n", ""));
+	ft_printf("%d\n", ft_printf("%p\n", NULL));
+	printf("%d\n", printf("%p\n", NULL));
+	ft_printf("%d\n", ft_printf("%u\n", 42));
+	ft_printf("%d\n", ft_printf("%%\n"));
+	ft_printf("%d\n", ft_printf("Hello %cWorld\n", "hello"));
 }
