@@ -19,7 +19,7 @@ int	ft_putnbr_p(unsigned long nb, unsigned long len, char *base)
 	count = 0;
     if (ft_putstr("0x") == -1)
         return (-1);
-	count = 2;
+    count = 2;
     ft_help(nb, len, base, &count);
     return (count);
 }

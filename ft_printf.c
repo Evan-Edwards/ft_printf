@@ -59,7 +59,6 @@ static int	ft_print_help(const char *format, va_list list)
 static int	ft_type(char c, va_list list)
 {
 	int				err;
-	unsigned long	nb;
 
 	err = 0;
 	if (c == 'c')
