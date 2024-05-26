@@ -11,56 +11,79 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-void	ft_putchar(char c, int *count)
+int	ft_putchar(char c)
 {
 	if (write(1, &c, 1) == -1)
 	{
-		*count = -1;
-		return ;
+		return (-1);
 	}
-	(*count)++;
+	return (1);
 }
 
-void	ft_putstr(char *s, int *count)
+int	ft_putstr(char *s)
 {
 	int		i;
-	char	*null;
+	int		count;
 
 	i = 0;
-	null = "(null)";
+	count = 0;
 	if (!s)
 	{
-		if (write (1, null, 6) == -1)
-			*count = -1;
-		else
-			*count += 6;
+		return (write(1, "(null)", 6));
 	}
 	while (s[i])
 	{
-		ft_putchar(s[i], count);
-		if (*count == -1)
-			return ;
+		if (ft_putchar(s[i]) == -1)
+			return (-1);
+		count ++;
 		i++;
 	}
+	return (count);
 }
 
-void	ft_putnbr(long nb, int len, char *base, int *count)
+int	ft_putnbr(long nb, int len, char *base)
 {
+	int	count;
+
+	count = 0;
 	if (nb < 0)
 	{
-		ft_putchar('-', count);
-		if (*count == -1)
-			return ;
+		if (ft_putchar('-') == -1)
+			return (-1);
+		count ++;
 		nb *= -1;
 	}
-	if (nb >= len)
-		ft_putnbr(nb / len, len, base, count);
-	ft_putchar(base[nb % len], count);
+	while (nb >= len)
+	{
+		if (ft_putchar(base[nb % len]) == -1)
+			return (-1);
+		count ++;
+		nb = nb / len;
+	}
+	if (ft_putchar(base[nb % len]) == -1)
+		return (-1);
+	count ++;
+	return (count);
 }
 
-void	ft_putnbr_p(unsigned long nb, int len, char *base, int *count)
+int	ft_putnbr_p(void *ptr, unsigned long len, char *base)
 {
-	if (nb >= (unsigned long)len)
-		ft_putnbr_p(nb / len, len, base, count);
-	ft_putchar(base[nb % len], count);
+	int				count;
+	unsigned long	nb;
+
+	nb = (unsigned long)(ptr);
+	if (ft_putstr("0x") == -1)
+		return (-1);
+	count = 2;
+	while (nb >= len)
+	{
+		if (ft_putchar(base[nb % len]) == -1)
+			return (-1);
+		count ++;
+		nb = nb / len;
+	}
+	if (ft_putchar(base[nb % len]) == -1)
+		return (-1);
+	count ++;
+	return (count);
 }

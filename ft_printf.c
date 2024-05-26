@@ -11,71 +11,79 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-void	ft_type(char c, va_list list, int *count);
+static int	ft_type(char c, va_list list);
+static int	ft_print_help(const char *format, va_list list);
 
 int	ft_printf(const char *format, ...)
 {
-	int		i;
 	int		count;
 	va_list	list;
 
-	i = 0;
 	count = 0;
 	va_start(list, format);
-	while (format[i])
-	{
-		if (count < 0)
-			return (-1);
-		if (format[i] == '%' && format[i + 1])
-		{
-			i++;
-			ft_type(format[i], list, &count);
-			i++;
-		}
-		else
-		{
-			ft_putchar(format[i], &count);
-			i++;
-		}
-	}
+	count = ft_print_help(format, list);
 	va_end(list);
 	return (count);
 }
 
-void	ft_type(char c, va_list list, int *count)
+static int	ft_print_help(const char *format, va_list list)
 {
-	unsigned long	n;
+	int	i;
+	int	err;
+	int	count;
 
-	n = 0;
-	if (c == 'c')
-		ft_putchar(va_arg(list, int), count);
-	else if (c == 's')
-		ft_putstr(va_arg(list, char *), count);
-	else if (c == 'd' || c == 'i')
-		ft_putnbr((va_arg(list, int)), 10, DEC, count);
-	else if (c == 'X')
-		ft_putnbr((va_arg(list, unsigned int)), 16, HEX, count);
-	else if (c == 'x')
-		ft_putnbr((va_arg(list, unsigned int)), 16, HEX_LOW, count);
-	else if (c == 'p')
+	i = 0;
+	err = 0;
+	while (format[i])
 	{
-		n = (unsigned long)(va_arg(list, void *));
-		ft_putstr("0x", count);
-		ft_putnbr_p(n, 16, HEX_LOW, count);
+		if (format[i] == '%' && format[i + 1])
+		{
+			i++;
+			err = ft_type(format[i], list);
+			if (err == -1)
+				return (-1);
+			count += count + err;
+		}
+		else
+		{
+			if (ft_putchar(format[i]) == -1)
+				return (-1);
+			count ++;
+		}
+		i++;
 	}
-	else if (c == 'u')
-		ft_putnbr(va_arg(list, unsigned int), 10, DEC, count);
-	else if (c == '%')
-		ft_putchar(c, count);
-	else
-		(*count)--;
+	return (count);
 }
-/*
+
+static int	ft_type(char c, va_list list)
+{
+	int				err;
+
+	err = 0;
+	if (c == 'c')
+		err = ft_putchar(va_arg(list, int));
+	else if (c == 's')
+		err = ft_putstr(va_arg(list, char *));
+	else if (c == 'd' || c == 'i')
+		err = ft_putnbr((va_arg(list, int)), 10, DEC);
+	else if (c == 'X')
+		err = ft_putnbr((va_arg(list, unsigned int)), 16, HEX);
+	else if (c == 'x')
+		err = ft_putnbr((va_arg(list, unsigned int)), 16, HEX_LOW);
+	else if (c == 'p')
+		err = ft_putnbr_p((va_arg(list, void *)), 16, HEX_LOW);
+	else if (c == 'u')
+		err = ft_putnbr(va_arg(list, unsigned int), 10, DEC);
+	else if (c == '%')
+		err = ft_putchar(c);
+	return (err);
+}
+
 #include <stdio.h>
 
 int	main(void)
 {
-	//ft_printf("%d\n", ft_printf("%c\n", 'a'));
+	ft_printf("%d\n", ft_printf("%c\n", 'a'));
 	//ft_printf("%d\n", ft_printf("%s\n", "hello"));
 	//printf("%d\n", printf("%s\n", "hello"));
 	//ft_printf("%d\n", ft_printf("%d\n", 42));
@@ -89,5 +97,4 @@ int	main(void)
 	//ft_printf("%d\n", ft_printf("%u\n", 42));
 	//ft_printf("%d\n", ft_printf("%%\n"));
 	//ft_printf("%d\n", ft_printf("Hello %cWorld\n", "hello"));
-
-*/
+}
