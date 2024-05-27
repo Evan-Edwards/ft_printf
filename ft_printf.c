@@ -39,13 +39,12 @@ static int	ft_print_help(const char *format, va_list list)
 	{
 		if (format[i] == '%' && format[i + 1])
 		{
-			i++;
-			err = ft_type(format[i], list);
+			err = ft_type(format[++i], list);
 			if (err == -1)
 				return (-1);
 			count += err;
 		}
-		else
+		else if (format[i] != '%')
 		{
 			if (ft_putchar(format[i]) == -1)
 				return (-1);
@@ -78,25 +77,4 @@ static int	ft_type(char c, va_list list)
 	else if (c == '%')
 		err = ft_putchar(c);
 	return (err);
-}
-
-#include <stdio.h>
-
-int	main(void)
-{
-	ft_printf("%d\n", ft_printf("%c\n", 'a'));
-	printf("%d\n", printf("%c\n", 'a'));
-	ft_printf("%d\n", ft_printf("%s\n", "hello"));
-	printf("%d\n", printf("%s\n", "hello"));
-	ft_printf("%d\n", ft_printf("%d\n", 42));
-	ft_printf("%d\n", ft_printf("%i\n", 42));
-	ft_printf("%d\n", ft_printf("%X\n", 42));
-	ft_printf("%d\n", ft_printf("%x\n", 42));
-	ft_printf("%d\n", ft_printf("%p\n", ""));
-	printf("%d\n", printf("%p\n", ""));
-	ft_printf("%d\n", ft_printf("%p\n", NULL));
-	printf("%d\n", printf("%p\n", NULL));
-	ft_printf("%d\n", ft_printf("%u\n", 42));
-	ft_printf("%d\n", ft_printf("%%\n"));
-	ft_printf("%d\n", ft_printf("Hello %cWorld\n", "hello"));
 }
