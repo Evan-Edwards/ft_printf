@@ -15,8 +15,6 @@
 
 # include <stdarg.h>
 # include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
 
 # define DEC "0123456789"
 # define HEX "0123456789ABCDEF"
