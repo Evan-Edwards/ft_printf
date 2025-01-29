@@ -6,7 +6,7 @@
 #    By: eedwards <eedwards@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/20 15:23:06 by eedwards          #+#    #+#              #
-#    Updated: 2025/01/29 11:54:54 by eedwards         ###   ########.fr        #
+#    Updated: 2025/01/29 12:05:39 by eedwards         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = src/ft_printf.c src/ft_putchar.c src/ft_putnbr_p.c src/ft_putnbr.c \
 	src/ft_putstr.c
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS:src/%.c=obj/%.o)
 
 obj/%.o: src/%.c
 	@mkdir -p obj
